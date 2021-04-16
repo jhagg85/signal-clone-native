@@ -1,0 +1,24 @@
+[debug] [2021-04-16T15:22:48.269Z] ----------------------------------------------------------------------
+[debug] [2021-04-16T15:22:48.272Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init
+[debug] [2021-04-16T15:22:48.273Z] CLI Version:   9.9.0
+[debug] [2021-04-16T15:22:48.273Z] Platform:      darwin
+[debug] [2021-04-16T15:22:48.273Z] Node Version:  v14.15.3
+[debug] [2021-04-16T15:22:48.276Z] Time:          Fri Apr 16 2021 23:22:48 GMT+0800 (Philippine Standard Time)
+[debug] [2021-04-16T15:22:48.276Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-04-16T15:22:48.280Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-04-16T15:22:48.316Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-16T15:22:48.316Z] > authorizing via signed-in user (jhaggy85@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/jaggarganera/Desktop/jhagg-project/react-project/signal-clone-native
+
+[debug] [2021-04-16T15:22:50.136Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-04-16T15:22:50.137Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}

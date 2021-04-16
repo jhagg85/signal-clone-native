@@ -22,7 +22,7 @@ import * as firebase from "firebase";
 
 const ChatScreen = ({ navigation, route }) => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,8 +39,7 @@ const ChatScreen = ({ navigation, route }) => {
           <Avatar
             rounded
             source={{
-              uri:
-                "https://thumbs.dreamstime.com/b/mouse-face-head-body-kawaii-animal-cute-cartoon-funny-baby-character-black-contour-silhouette-doodle-linear-sketch-pink-cheeks-170791163.jpg",
+              uri: messages[0]?.data.photoURL,
             }}
           />
           <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>
@@ -70,30 +69,13 @@ const ChatScreen = ({ navigation, route }) => {
           <TouchableOpacity activeOpacity={0.5}>
             <FontAwesome name="video-camera" size={24} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate("AddChat")}
-          // activeOpacity={0.5}
-          >
+          <TouchableOpacity activeOpacity={0.5}>
             <Ionicons name="call" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [navigation]);
-
-  const sendMessage = () => {
-    Keyboard.dismiss();
-
-    db.collection("chats").doc(route.params.id).collection("messages").add({
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      message: input,
-      displayName: auth.currentUser.displayName,
-      email: auth.currentUser.email,
-      photoURL: auth.currentUser.photoURL,
-    });
-
-    setInput("");
-  };
+  }, [navigation, messages]);
 
   useLayoutEffect(() => {
     const unsubscribe = db
@@ -112,6 +94,21 @@ const ChatScreen = ({ navigation, route }) => {
     return unsubscribe;
   }, [route]);
 
+  const sendMessage = () => {
+    Keyboard.dismiss();
+
+    // Send Message
+    db.collection("chats").doc(route.params.id).collection("messages").add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message: input,
+      displayName: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      photoURL: auth.currentUser.photoURL,
+    });
+
+    setInput("");
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -127,21 +124,53 @@ const ChatScreen = ({ navigation, route }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
-            <ScrollView>
+            <ScrollView
+              contentContainerStyle={{
+                paddingTop: 15,
+              }}
+            >
               {messages.map(({ id, data }) =>
                 data.email === auth.currentUser.email ? (
                   <View key={id} style={styles.reciever}>
-                    <Avatar />
+                    <Avatar
+                      position="absolute"
+                      // WEB
+                      containerStyle={{
+                        position: "absolute",
+                        bottom: -15,
+                        right: -15,
+                      }}
+                      rounded
+                      bottom={-15}
+                      right={-5}
+                      size={30}
+                      source={{ uri: data.photoURL }}
+                    />
                     <Text style={styles.recieverText}>{data.message}</Text>
                   </View>
                 ) : (
-                  <View style={styles.sender}>
-                    <Avatar />
+                  <View key={id} style={styles.sender}>
+                    <Avatar
+                      position="absolute"
+                      // WEB
+                      containerStyle={{
+                        position: "absolute",
+                        bottom: -15,
+                        left: -15,
+                      }}
+                      rounded
+                      bottom={-15}
+                      left={-5}
+                      size={30}
+                      source={{ uri: data.photoURL }}
+                    />
                     <Text style={styles.senderText}>{data.message}</Text>
+                    <Text style={styles.senderName}>{data.displayName}</Text>
                   </View>
                 )
               )}
             </ScrollView>
+
             <View style={styles.footer}>
               <TextInput
                 value={input}
@@ -176,6 +205,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     maxWidth: "80%",
     position: "relative",
+  },
+  sender: {
+    padding: 15,
+    backgroundColor: "#2b68e6",
+    alignSelf: "flex-start",
+    borderRadius: 20,
+    margin: 15,
+    maxWidth: "max",
+    position: "relative",
+  },
+  senderText: {
+    color: "white",
+    fontWeight: "500",
+    marginLeft: 10,
+    marginBottom: 15,
+  },
+  recieverText: {
+    color: "black",
+    fontWeight: "500",
+    marginLeft: 10,
+  },
+  senderName: {
+    left: 10,
+    paddingRight: 10,
+    fontSize: 10,
+    color: "white",
   },
   footer: {
     flexDirection: "row",
